@@ -5,6 +5,9 @@ module.exports = app => {
 	app.route(['/home', '/'])
 	.get(pageFilmes.renderizarFilmesCartaz)
 
-	app.route('/filme_ingresso/:nomeFilme')
+	app.route('/filme/:nomeFilme')
 	.get(pageFilmes.renderizarFilme)
+
+	app.route('/ingresso/:sala/sessao')
+	.get(pageFilmes.renderizarSessao)
 }

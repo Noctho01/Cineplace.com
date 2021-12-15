@@ -69,7 +69,9 @@
 							<h5 style="color: darkred;"><strong><%= ingresso.dia.toUpperCase() %> :</strong></h5>
 							<ul>
 								<%for (i in ingresso.horarios) {%>
-									<form action="/selecionar_lugares/<%= filme.title %>/<%= ingresso.dia %>/<%= ingresso.horarios[i].horario %>" method="GET">
+									<form action="/ingresso/<%= filme.sala %>/sessao" method="GET">
+										
+										<input type="hidden" value="<%= ingresso.dia %>" name="dia">
 										<input type="submit" value="<%= ingresso.horarios[i].horario %>" name="horario">
 										
 										<strong style="color: green;">

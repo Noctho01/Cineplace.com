@@ -43,14 +43,14 @@
 					<% for (filme in filmesCartaz) {%>
 					<%if (filme == 0) {%>
 					<div class="carousel-item active">
-						<a href="/filme_ingresso/<%= filmesCartaz[filme].title %>"> <img class="d-block w-100" alt="Carousel Bootstrap First" src="<%= filmesCartaz[filme].banner_src %>"></a>
+						<a href="/filme/<%= filmesCartaz[filme].title %>"> <img class="d-block w-100" alt="Carousel Bootstrap First" src="<%= filmesCartaz[filme].banner_src %>"></a>
 						<div class="carousel-caption">
 						</div>
 					</div>
 					<% }else {%>
 
 					<div class="carousel-item">
-						<a href="/filme_ingresso/<%= filmesCartaz[filme].title %>"><img class="d-block w-100" alt="Carousel Bootstrap Second" src="<%= filmesCartaz[filme].banner_src %>"></a>
+						<a href="/filme/<%= filmesCartaz[filme].title %>"><img class="d-block w-100" alt="Carousel Bootstrap Second" src="<%= filmesCartaz[filme].banner_src %>"></a>
 						<div class="carousel-caption">
 						</div>
 					</div>
@@ -80,7 +80,7 @@
 					<%} else {%>
 							<strong style="color: red; margin-left: 50px;"><%= filme.classificacao %></strong>
 					<%}%> 
-					<a href="/filme_ingresso/<%= filme.title %>"><strong style="margin-left: 50px;"><%= filme.title %></strong></a>
+					<a href="/filme/<%= filme.title %>"><strong style="margin-left: 50px;"><%= filme.title %></strong></a>
 				</h5>
 				<div class="card-body">
 					<p class="card-text" style=" margin: 15px;">
