@@ -1,0 +1,7 @@
+# CONHECIMENTOS NECESSARIOS
+
+- > Padroes de Projetos,
+- > Arquitetura do projetos,
+- > GraphQl,
+- > OO em Node.js
+- > Mongose

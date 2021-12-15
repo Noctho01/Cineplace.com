@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title><%= filme.title %></title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+    	<ul class="nav nav-tabs" style="margin-bottom: 50px;">
+				<li class="nav-item">
+					<a class="nav-link active" href="/home">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/login">LOGIN</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/cadastro">CADASTRAR</a>
+				</li>
+			</ul>
+	<div class="row" style="margin-bottom: 70px;">
+		<div class="col-md-2">
+			<img src="<%= filme.miniBanner_src %>" class="img-thumbnail">
+		</div>
+		<div class="col-md-10">
+			<h3>
+				<%= filme.title%>
+			</h3>
+			<p>
+				<%= filme.resumo %>
+			</p>
+			<ul style="color: blueviolet;">
+				<li class="list-item list-item">
+					<strong>DURAÇÃO: </strong> <%= filme.duracao %>
+				</li>
+				<li class="list-item list-item">
+					<strong>GENERO: </strong> <%= filme.genero %>
+				</li>
+				<li class="list-item list-item">
+					<strong>DIRETOR: </strong> <%= filme.diretor %>
+				</li>
+				<li class="list-item list-item">
+					<strong>ELENCO: </strong> <%= filme.elenco %>
+				</li>
+				<li class="list-item list-item">
+					<strong>CLASSIFICACAO: </strong> <%= filme.classificacao %>
+				</li>
+				<li class="list-item list-item">
+					<strong>DISTRIBUIDORA: </strong> <%= filme.distribuidora %>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<ul>
+					
+				
+				<% for (ingresso of filme.ingresso) {%>
+						<li class="list-item" style="margin-bottom: 25px;">
+							<h5 style="color: darkred;"><strong><%= ingresso.dia.toUpperCase() %> :</strong></h5>
+							<ul>
+								<%for (i in ingresso.horarios) {%>
+									<form action="/selecionar_lugares/<%= filme.title %>/<%= ingresso.dia %>/<%= ingresso.horarios[i].horario %>" method="GET">
+										<input type="submit" value="<%= ingresso.horarios[i].horario %>" name="horario">
+										
+										<strong style="color: green;">
+												<% if (ingresso.horarios[i].dublado) {%> DUBLADO <%} else {%> LEGENDADO <%}%>
+												&nbsp&nbsp&nbsp&nbsp
+												<% if (ingresso.horarios[i].img3d) {%> 3D <%} else {%> 2D <%}%>
+									</strong>
+									</form>	
+								<%}%>
+							</ul>
+
+						</li>
+				<%}%>
+			</ul>
+		</div>
+	</div>
+</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title><%= title %></title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-tabs">
+				<li class="nav-item">
+					<a class="nav-link active" href="/home">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/login">LOGIN</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/cadastro">CADASTRAR</a>
+				</li>
+			</ul>
+			<div class="carousel slide" id="carousel-918990">
+				<ol class="carousel-indicators">
+					<li data-slide-to="0" data-target="#carousel-918990" class="active">
+					</li>
+					<li data-slide-to="1" data-target="#carousel-918990">
+					</li>
+					<li data-slide-to="2" data-target="#carousel-918990">
+					</li>
+				</ol>
+				<div class="carousel-inner">
+					<% for (filme in filmesCartaz) {%>
+					<%if (filme == 0) {%>
+					<div class="carousel-item active">
+						<a href="/filme_ingresso/<%= filmesCartaz[filme].title %>"> <img class="d-block w-100" alt="Carousel Bootstrap First" src="<%= filmesCartaz[filme].banner_src %>"></a>
+						<div class="carousel-caption">
+						</div>
+					</div>
+					<% }else {%>
+
+					<div class="carousel-item">
+						<a href="/filme_ingresso/<%= filmesCartaz[filme].title %>"><img class="d-block w-100" alt="Carousel Bootstrap Second" src="<%= filmesCartaz[filme].banner_src %>"></a>
+						<div class="carousel-caption">
+						</div>
+					</div>
+					<%}%>
+					<%}%>
+				</div> <a class="carousel-control-prev" href="#carousel-918990" data-slide="prev"><span class="carousel-control-prev-icon"></span> <span class="sr-only">Previous</span></a> <a class="carousel-control-next" href="#carousel-918990" data-slide="next"><span class="carousel-control-next-icon"></span> <span class="sr-only">Next</span></a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+		</div>
+	</div>
+
+	<div class="row">
+
+		<!-- FILMES -->
+		<% filmesMiniCartaz.forEach(filme => { %>
+		<div class="col-md-8">
+			<div class="card" style="margin-bottom: 50px;">
+				<h5 class="card-header">
+					<img src="<%= filme.miniBanner_src %>" width="100">
+					<% if (filme.classificacao == 12) {%>
+							<strong style="color: orange; margin-left: 50px;"><%= filme.classificacao %></strong>
+					<%} else if (filme.classificacao == "livre") {%>
+							<strong style="color: green; margin-left: 50px;">L</strong>
+					<%} else {%>
+							<strong style="color: red; margin-left: 50px;"><%= filme.classificacao %></strong>
+					<%}%> 
+					<a href="/filme_ingresso/<%= filme.title %>"><strong style="margin-left: 50px;"><%= filme.title %></strong></a>
+				</h5>
+				<div class="card-body">
+					<p class="card-text" style=" margin: 15px;">
+						<%= filme.resumo %>
+					</p>
+				</div>
+				<div class="card-footer">
+					<% for (dias of filme.ingresso) {%>
+
+						<% if (dias.dia) {%>
+							<strong style="color: darkred; margin-right: 50px;"><%= dias.dia %></strong>
+						<%}%>
+					<%}%>
+				</div>
+			</div>
+		</div>
+		<% }) %>
+
+		<!-- ADSENSE  -->
+		<div class="col-md-4">
+			
+		</div>
+	</div>
+</div>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/scripts.js"></script>
+  </body>
+</html>

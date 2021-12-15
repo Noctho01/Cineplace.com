@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title><%= title %></title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+    <style type="text/css">
+
+    	.errorBox {
+    		color: red;
+    	}
+
+    </style>
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="nav nav-tabs">
+				<li class="nav-item">
+					<a class="nav-link active" href="/home">Home</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/login">LOGIN</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/cadastro">CADASTRAR</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row" style="margin-top: 30px;">
+		<div class="col-md-4">
+		</div>
+		<div class="col-md-4">
+			<div class="row" style="margin-bottom: 30px;">
+				<h3>CADASTRAR USUARIO</h3>
+			</div>
+			<form role="form" action="/cadastro" method="POST">
+				<div class="form-group">
+					<label for="exampleInputCompletName">
+						Nome Completo
+					</label>
+					<input type="text" class="form-control" id="exampleInputCompletName" name="nome" placeholder="Sherlock Holmes"><div id="nomeError" class="errorBox"></div>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputEmail1">
+						Email
+					</label>
+					<input type="email" class="form-control" id="exampleInputEmail1" name="email" placeholder="sherlock_holmes@gmail.com"><div id="emailError" class="errorBox"></div>
+				</div>
+				<div class="form-group">
+					 
+					<label for="exampleInputPassword1">
+						Senha
+					</label>
+					<input type="password" class="form-control" id="exampleInputPassword1" name="password"><div id="passwordError" class="errorBox"></div>
+				</div>
+				<div class="form-group">
+					 
+					<label for="exampleInputPasswordComp">
+						Senha Novamente
+					</label>
+					<input type="password" class="form-control" id="exampleInputPasswordComp" name="passwordComp"><div id="passwordCompError" class="errorBox"></div>
+				</div> 
+				<button type="submit" class="btn btn-primary">
+					Prosseguir
+				</button>
+			</form>
+		</div>
+		<div class="col-md-4">
+		</div>
+	</div>
+</div>
+	<script type="text/javascript">
+
+		<% if (usuario) {%>
+
+			const usuario = {
+				nome: "<%= usuario.nome %>",
+				email: "<%= usuario.email %>",
+				password: "<%= usuario.password %>",
+			}
+
+			const bodyNome = document.getElementById("exampleInputCompletName")
+			const bodyEmail = document.getElementById("exampleInputEmail1")
+			const bodyPassword = document.getElementById("exampleInputPassword1")
+
+			bodyNome.value = usuario.nome
+			bodyEmail.value = usuario.email
+			bodyPassword.value = usuario.password
+
+		<% } %>
+
+		// pegando os erros da variavel errors
+		<% if (errors) {%>
+
+			// pegando elementos class errorsBox
+			const nome = document.getElementById("nomeError")
+			const email = document.getElementById("emailError")
+			const password = document.getElementById("passwordError")
+			const passwordComp = document.getElementById("passwordCompError")
+
+			const errors = {
+				nome: <%= errors.nome %>,
+				email: <%= errors.email %>,
+				password: <%= errors.password %>,
+				passwordComp: <%= errors.passwordComp %>
+			}
+
+			// informando usuario sobre os erros
+			if (!errors.nome) { nome.innerHTML = "informe seu nome completo" }
+			if (!errors.email) { email.innerHTML = "informe seu email" }
+			if (!errors.password) { password.innerHTML = "informe uma senha valida" }
+			if (!errors.passwordComp) { passwordComp.innerHTML = "Repita a senha extamente como esta em  'senha'" }
+
+		<% } else {%>
+
+			const errors : undefined
+
+		<% } %>
+
+	</script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>

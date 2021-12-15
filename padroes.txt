@@ -1,0 +1,39 @@
+# PADROES...
+
+>> NOMECLATURA <<
+
+- > NOME DE DIRETORIOS: "nome_diretorio"
+- > NOME DE MODULOS: "nome-modulo"
+- > NOME CLASSES: 'NomeClasse'
+- > NOME INSTANCIAS: 'nomeInstancias'
+- > NOME VARIAVEIS: 'nomeVariaveis'
+- > NOME FUNCOES: 'nomeFuncoes'
+
+>> ESPACAMENTOS <<
+
+nomeVariavel = 'valor'
+
+funcao()
+
+function nomeFuncao (paramentro1, parametro2) { ... }
+
+objs = {
+	valor1: '',
+	valor2: ''
+}
+
+objs = {valor: ''}
+
+list = [
+	'',
+	'',
+	''
+]
+
+
+if () {
+	
+} else {
+	
+}
+

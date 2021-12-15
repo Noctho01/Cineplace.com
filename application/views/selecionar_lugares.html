@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title><%= filme.title %></title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+
+  </head>
+  <body>
+
+    <div class="container-fluid">
+	<div class="row">
+		<div class="col-md-12">
+			<ul class="nav">
+				<li class="nav-item">
+					<a class="nav-link active" href="/">HOME</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/login">LOGIN</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="/cadastro">CADASTRAR</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-2">
+			<img alt="Bootstrap Image Preview" src="<%= filme.miniBanner_src %>" />
+		</div>
+		<div class="col-md-10">
+			<h3>
+				<%= filme.title %>
+			</h3>
+
+			<!-- CADEIRAS -->
+			<style>
+				.demo {
+					width:50%;
+					height:50%;
+					border:8px Nenhum #000000;
+					border-collapse:colapso;
+					border-spacing:10px;
+					padding:5px;
+				}
+				.demo th {
+					border:8px Nenhum #000000;
+					padding:5px;
+					background:#F0F0F0;
+				}
+				.demo td {
+					border:8px Nenhum #000000;
+					text-align:Centro;
+					padding:5px;
+					background:#FFFFFF;
+				}
+			</style>
+
+			<form action="/compra_ingresso" method="post">
+				<!-- teste -->
+				<table class="demo">
+					<caption><%= filme.sala %></caption>
+					<thead>
+						<tr>
+							<th><br></th>
+							<th>1&nbsp;</th>
+							<th>2</th>
+							<th>3</th>
+							<th>4</th>
+							<th>5</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>A</td>
+							<% for (ingresso of filme.ingresso) {%>
+								<% if (ingresso.dia == ingressoBody.dia) {%>
+									<% for (i in ingresso.horarios) {%>
+										<% if (ingresso.horarios[i].horario == ingressoBody.horario) {%>
+											<% for (coluna of ingresso.horarios[i].lugares) {%>
+												<% if (coluna.lugar[0] == "A") {%>
+													<% if (coluna.ocupado == 0) {%>	
+														<td><input type="checkbox" name="cadeiras" value="<%= coluna.lugar %>"></td>
+													<%} else {%>
+														<td>x</td>
+													<%}%>
+												<%}%>
+											<% } %>
+										<% } %>
+									<% } %>
+								<% } %>
+							<% } %>
+						</tr>
+						<tr>
+							<td>B</td>
+							<% for (ingresso of filme.ingresso) {%>
+								<% if (ingresso.dia == ingressoBody.dia) {%>
+									<% for (i in ingresso.horarios) {%>
+										<% if (ingresso.horarios[i].horario == ingressoBody.horario) {%>
+											<% for (coluna of ingresso.horarios[i].lugares) {%>
+												<% if (coluna.lugar[0] == "B") {%>
+													<% if (coluna.ocupado == 0) {%>	
+														<td><input type="checkbox" name="cadeiras" value="<%= coluna.lugar %>"></td>
+													<%} else {%>
+														<td>x</td>
+													<%}%>
+												<%}%>
+											<% } %>
+										<% } %>
+									<% } %>
+								<% } %>
+							<% } %>
+						</tr>
+					</tbody>
+				</table>
+				<input type="email" placeholder="Digite seu email aqui" id="email" name="email" onkeyup="digitandoEmail()" style="margin-bottom: 10px;">
+				<input type="hidden" value="<%= ingressoBody.title %>" name="title">
+				<input type="hidden" value="<%= ingressoBody.dia %>" name="dia">
+				<input type="hidden" value="<%= ingressoBody.horario %>" name="horario">
+				<div class="row">
+					<div class="col-md-3">
+				 		<input type="button" onclick="window.location.href = '/' " value="CANCELAR" class="btn btn-block btn-md btn-outline-danger">
+					</div>
+					<div class="col-md-3">
+						<input id="submit" type="hidden" value="PROSSEGUIR" class="btn btn-block btn-outline-success">
+						<script type="text/javascript">
+								var email = document.getElementById("email")
+								
+								function digitandoEmail () {
+									if (email.value.indexOf("@") != -1 && email.value.indexOf(".com") != -1) {
+										document.getElementById("submit").type = "submit"
+									} else {
+										document.getElementById("submit").type = "hidden"
+									}
+								}
+
+						</script>
+				 		
+					</div>
+				</div>
+			</form>
+
+		</div>
+	</div>
+	<div class="row">
+
+	</div>
+</div>
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>

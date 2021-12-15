@@ -1,0 +1,22 @@
+# DEPENDENCIAS DO SISTEMA
+
+- > SERVIDOR
+	+ express
+
+- > CONFIGURACAO
+	+ Ejs,
+	+ body-parse,
+	+ dotenv
+
+- > SEGURANCA
+	+ crypto,
+	+ jWT
+
+- > VAIDACAO
+	+ validator.js
+
+- > ROTAS
+	+ consign (apenas para as rotas)
+
+- > BANCO DE DADOS
+	+ mongose
