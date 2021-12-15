@@ -21,8 +21,10 @@ class Filmes {
     async instanciarFilme (nomeFilme) {
         const resultBusca = await dbFilmes.buscarFilme(nomeFilme)
 
-        if(resultBusca.error) console.error(resultBusca.error)
+        if(resultBusca.error) return { status: 'error', error: resultBusca.error }
         this._setarPropriedadesFilme = resultBusca
+        
+        return { status: 'success'}
     }
 
     async filmesCartaz () {

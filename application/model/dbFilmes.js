@@ -15,7 +15,7 @@ module.exports = {
         const resultFind = await db.collection('filmes').find().toArray()
         client.close()
 
-        if(!resultFind) return { error: 'Banco de dados esta vazio' }
+        if(resultFind.length == 0) return { error: 'Banco de dados esta vazio' }
         return resultFind
     },
 
