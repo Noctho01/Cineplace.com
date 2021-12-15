@@ -35,6 +35,19 @@ class Filmes {
         return await dbFilmes.buscarFilmes()
     }
 
+    async atualizarSessao () {
+        /* 
+        ATUALIZAR DADOS:
+        this.vendasTotal
+        this.ingresso
+        */
+        const resultFind = await dbFilmes.buscarStatusIngressoFilme(this.title)
+
+        this.vendasTotal = resultFind.vendasTotal
+        this.ingresso = resultFind.ingresso
+        console.log("vendasTotal e ingresso foram atualizados")
+    }
+
     // INSTANCIANDO PROPRIEDADES DO FILME INSTANCIADO
     set _setarPropriedadesFilme (filme) {
         this.title = filme.title

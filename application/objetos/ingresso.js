@@ -2,6 +2,7 @@ class Ingresso {
     constructor () {
         this._comprador = undefined
         this._titleFilme = undefined
+        this._sala = undefined
         this._sessao = {
             dia: undefined,
             horario: undefined
@@ -21,6 +22,7 @@ class Ingresso {
     set setSessao (diaHorario) {
         this._sessao.dia = diaHorario.dia
         this._sessao.horario = diaHorario.horario
+        this._sala = diaHorario.sala
     }
 
     set setCadeiras (arrayCadeiras) {
@@ -31,6 +33,7 @@ class Ingresso {
         if (validation) {
             this._comprador = undefined
             this._titleFilme = undefined
+            this._sala = undefined
             this._sessao = {
                 dia: undefined,
                 horario: undefined

@@ -37,7 +37,7 @@ module.exports = {
             if (resultInstancia.status != 'success') res.status(500).json(resultInstancia)
             else res.render('filme_ingresso', { filme })
             
-            console.log(`Pagina "/filme_ingresso/${filme.title}" foi acessada pelo client: ${hostname}:${ip}`)
+            console.log(`Pagina "/filme/${filme.title}" foi acessada pelo client: ${hostname}:${ip}`)
 
         } catch (err) {
             next(err)
@@ -46,7 +46,18 @@ module.exports = {
 
     renderizarSessao: async (req, res, next) => {
         try {
-            res.send('Ola Mundo')
+            await filme.atualizarSessao()
+            const hostname = req.hostname
+            const ip = req.ip
+            const dia = req.query.dia
+            const horario = req.query.horario
+            const sala = req.params.sala
+
+            ingresso.setSessao = {dia, horario , sala}
+            res.render('selecionar_lugares', { filme, ingressoBody: { dia, horario }})
+
+            console.log(`Pagina "/ingresso/${sala}/sessao" foi acessada pelo client: ${hostname}:${ip}`)
+
         } catch (err) {
             next(err)
         }
