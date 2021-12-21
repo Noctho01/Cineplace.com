@@ -1,8 +1,5 @@
-const Filmes = require('../objetos/filmes')
-const Ingresso = require('../objetos/ingresso')
-
-const filme = new Filmes()
-const ingresso = new Ingresso()
+const filme = require('../objetos/filmes')
+const ingresso = require('../objetos/ingresso')
 
 module.exports = {
     renderizarFilmesCartaz: async (req, res, next) => {

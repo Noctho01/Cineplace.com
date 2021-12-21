@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><%= title %></title>
+    <title> Cadastrar Usuario </title>
 
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
@@ -103,7 +103,7 @@
 		<% } %>
 
 		// pegando os erros da variavel errors
-		<% if (errors) {%>
+		<% if (errors && status == 400) {%>
 
 			// pegando elementos class errorsBox
 			const nome = document.getElementById("nomeError")
@@ -120,10 +120,12 @@
 
 			// informando usuario sobre os erros
 			if (!errors.nome) { nome.innerHTML = "informe seu nome completo" }
-			if (!errors.email) { email.innerHTML = "informe seu email" }
+			if (!errors.email) { email.innerHTML = "informe um email valido e disponivel" }
 			if (!errors.password) { password.innerHTML = "informe uma senha valida" }
 			if (!errors.passwordComp) { passwordComp.innerHTML = "Repita a senha extamente como esta em  'senha'" }
-
+		
+		<% } else if (status == 500){%>
+			window.alert('Nao foi possivel criar usuario')
 		<% } else {%>
 
 			const errors : undefined

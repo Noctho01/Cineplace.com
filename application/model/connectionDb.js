@@ -1,6 +1,6 @@
 const { MongoClient } = require('mongodb')
 
-const client = new MongoClient(process.env.URL_DATABASE)
-const db = client.db(process.env.NAME_DATABASE)
+const conexao = new MongoClient(process.env.URL_DATABASE)
+const db = conexao.db(process.env.NAME_DATABASE)
 
-module.exports = { client, db }
+module.exports = { conexao, db }

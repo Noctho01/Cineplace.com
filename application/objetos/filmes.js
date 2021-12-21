@@ -66,4 +66,4 @@ class Filmes {
     }
 }
 
-module.exports = Filmes
+module.exports = new Filmes()

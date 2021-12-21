@@ -54,4 +54,4 @@ class Ingresso {
     }
 }
 
-module.exports = Ingresso
+module.exports = new Ingresso()
