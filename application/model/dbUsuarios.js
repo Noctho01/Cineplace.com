@@ -16,6 +16,17 @@ module.exports = {
     },
 
     buscar: async email => {
+        try {
+            await conexao.connect()
+            const resultFind = await db.collection('usuarios').findOne({email: email})
+            conexao.close()
+
+            if (!resultFind) return false
+            return resultFind
+        } catch (err) {
+            console.error(err)
+            return false
+        }
 
     },
 
@@ -28,6 +39,6 @@ module.exports = {
         const resultFind = await db.collection('usuarios').findOne({ email: email })
         conexao.close()
 
-        return resultFind != null ? false : true
+        return resultFind == null ? false : true
     }
 }

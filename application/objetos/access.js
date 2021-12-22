@@ -2,16 +2,12 @@ const jwt = require('jsonwebtoken')
 const crypto = require('crypto')
 
 class Access {
-    constructor (email) {
-        this._email = email
-    }
 
     _gerarHeader () {
         const header = JSON.stringify({
             alg: process.env.ALG,
             typ: process.env.TYP
         })
-
         const headerBase64 = Buffer.from(header)
             .toString('base64')
             .replace(/\//g)
@@ -21,12 +17,11 @@ class Access {
         return headerBase64
     }
 
-    _gerarPayload () {
+    _gerarPayload (email) {
         const payload = JSON.stringify({
-            "email" : this._email,
+            "email" : email,
             "exp" : 1516239022
         })
-
         const payloadBase64 = Buffer.from(payload)
             .toString('base64')
             .replace(/\//g)
@@ -36,26 +31,24 @@ class Access {
         return payloadBase64
     }
 
-    _gerarAssinatura () {
-        const headerPayloadBase64 = this._gerarHeader() + '.' + this._gerarPayload()
-        
+    _gerarAssinatura (email) {
+        const headerPayloadBase64 = this._gerarHeader() + '.' + this._gerarPayload(email)
         const signature = crypto
             .createHash('sha256', process.env.SECRET)
             .update(headerPayloadBase64)
             .digest('base64')
-
         const signatureUrl = signature
             .replace(/\+/g, '-')
             .replace(/\//g, '_')
-            .replace(/=/g, '');
-        
+            .replace(/=/g, '');  
         const token = headerPayloadBase64 + '.' + signatureUrl
         
         return token
     }
 
-    _salvarToken (res) {
-        
+    salvarToken (res, email) {
+        const token = this._gerarAssinatura(email)
+        res.cookie('access-token', 'Bearer ' + token)
     }
 
     validarCredenciais (credenciais) {
@@ -65,8 +58,6 @@ class Access {
     validarToken () {
         
     }
-    
-
 }
 
-module.exports = Access
+module.exports = new Access()

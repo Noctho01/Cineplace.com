@@ -4,15 +4,24 @@ const pagesUsuario = require('./controll/controllUsuario')
 module.exports = app => {
 	// HOME-PAGE /home
 	app.route(['/home', '/'])
-	.get(pagesFilme.renderizarFilmesCartaz)
+		.get(pagesFilme.renderizarFilmesCartaz)
 
 	app.route('/filme/:nomeFilme')
-	.get(pagesFilme.renderizarFilme)
+		.get(pagesFilme.renderizarFilme)
 
 	app.route('/ingresso/:sala/sessao')
-	.get(pagesFilme.renderizarSessao)
+		.get(pagesFilme.renderizarSessao)
 
 	app.route('/cadastro')
-	.get(pagesUsuario.renderizarFormulario)
-	.post(pagesUsuario.fazerCadastro)
+		.get(pagesUsuario.renderizarFormularioCadastro)
+		.post(pagesUsuario.fazerCadastro)
+
+	app.route('/login')
+		.get(pagesUsuario.renderizarFormularioLogin)
+		.post(pagesUsuario.efeturarLogin)
+
+	app.route('/pintao')
+		.get((req, res) => {
+			res.send(req.cookies['access-token'])
+		})
 }

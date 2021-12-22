@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title><%= title %></title>
+    <title>Login Usuario</title>
 
     <meta name="description" content="Source code generated using layoutit.com">
     <meta name="author" content="LayoutIt!">
@@ -46,7 +46,7 @@
 			<div class="row" style="margin-bottom: 30px;">
 				<h3>LOGIN USUARIO</h3>
 			</div>
-			<form role="form" action="/perfil" method="POST">
+			<form role="form" action="/login" method="POST">
 				<div class="form-group">
 					<label for="exampleInputEmail1">
 						Email
@@ -70,24 +70,24 @@
 </div>
 	<script type="text/javascript">
 
-		<% if (usuario) {%>
+		<% if (email) {%>
 
 			const bodyEmail = document.getElementById("exampleInputEmail1")
-			bodyEmail.value = "<%= usuario.email %>"
+			bodyEmail.value = "<%= email %>"
 
 		<% } %>
 
 		// pegando os erros da variavel errors
 		<% if (error) {%>
-			<% if (error.type == "email") {%>
+			<% if (tipo == "email") {%>
 
 				const email = document.getElementById("emailError")
-				email.innerHTML = "<%= error.message %>"
+				email.innerHTML = "<%= detalhe %>"
 
-			<%} else {%>
+			<%} else if (tipo == 'password'){%>
 
 				const password = document.getElementById("passwordError")
-				password.innerHTML = "<%= error.message %>"
+				password.innerHTML = "<%= detalhe %>"
 
 			<%}%>
 		<% } %>
