@@ -48,8 +48,18 @@ class Usuario {
         }
     }
 
-    configurarUsuario () {
+    async liberarAcesso (req) {
+        const payload = access.validarToken(req)
+        const result = await dbUsuario.buscar(payload.body)
+        
+        payload.body = result
+        
+        return  payload
+    }
 
+    encerrarSessao (res) {
+        const delToken = access.deletarToken(res)
+        return delToken
     }
 
     // ====================================================================================================================================================

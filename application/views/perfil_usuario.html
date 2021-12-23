@@ -24,13 +24,7 @@
 					<a class="nav-link active" href="/home">Home</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="/login">LOGIN</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/cadastro">CADASTRAR</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/logof">SAIR</a>
+					<a class="nav-link" href="/logout">SAIR</a>
 				</li>
 			</ul>
 		</div>
@@ -38,14 +32,14 @@
 	<div class="row" style="margin: 30px;">
 		<div class="col-md-2">
 			<h3>
-				<% const nomeQuebrado = usuario.nome_completo.split(" ") %>
+				<% const nomeQuebrado = usuario.nome.split(" ") %>
 				<% const sigla = nomeQuebrado[0][0] + "" + nomeQuebrado[1][0] %>
 				<%= sigla %>
 			</h3>
 		</div>
 		<div class="col-md-8">
 			<h3>
-				<%= usuario.nome_completo %>
+				<%= usuario.nome %>
 			</h3>
 			<p>
 				<%= usuario.email %>

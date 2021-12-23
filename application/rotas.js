@@ -20,8 +20,12 @@ module.exports = app => {
 		.get(pagesUsuario.renderizarFormularioLogin)
 		.post(pagesUsuario.efeturarLogin)
 
-	app.route('/pintao')
-		.get((req, res) => {
-			res.send(req.cookies['access-token'])
-		})
+	app.route('/perfil')
+		.get(pagesUsuario.renderizarPerfil)
+
+	app.route('/logout')
+		.get(pagesUsuario.logout)
+	
+	app.route('/token_invalido')
+		.get(pagesUsuario.tokenInvalido)
 }

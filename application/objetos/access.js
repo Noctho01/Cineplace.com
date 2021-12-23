@@ -16,47 +16,41 @@ class Access {
 
         return headerBase64
     }
-
-    _gerarPayload (email) {
-        const payload = JSON.stringify({
-            "email" : email,
-            "exp" : 1516239022
-        })
-        const payloadBase64 = Buffer.from(payload)
-            .toString('base64')
-            .replace(/\//g)
-            .replace(/\+/g)
-            .replace(/=/g)
-        
-        return payloadBase64
-    }
-
+ 
     _gerarAssinatura (email) {
-        const headerPayloadBase64 = this._gerarHeader() + '.' + this._gerarPayload(email)
-        const signature = crypto
-            .createHash('sha256', process.env.SECRET)
-            .update(headerPayloadBase64)
-            .digest('base64')
-        const signatureUrl = signature
-            .replace(/\+/g, '-')
-            .replace(/\//g, '_')
-            .replace(/=/g, '');  
-        const token = headerPayloadBase64 + '.' + signatureUrl
-        
-        return token
+        return jwt.sign(email, process.env.SECRET)
     }
 
     salvarToken (res, email) {
         const token = this._gerarAssinatura(email)
-        res.cookie('access-token', 'Bearer ' + token)
+        res.cookie('access-token', token)
     }
 
-    validarCredenciais (credenciais) {
-
-    }
-
-    validarToken () {
+    validarToken (req) {
+        const token = req.cookies['access-token']
+        if(!token) return { error: true, status: 400 }
         
+        const payload = jwt.verify(token, process.env.SECRET, (error, payload) => {
+            if (error) {
+                console.log('erro aqui')
+                console.log(error)
+                return { error: true, status: 500 }
+            } else {
+                return payload
+            }
+        })
+
+        return { error: false, status: 200, body: payload }
+    }
+
+    deletarToken (res) {
+        try {
+            res.clearCookie('access-token')
+            return { error: false, status: 200, detalhe: 'Token deletado' }
+        } catch (err) {
+            return { error: true, status: 500, detalhe: 'Token nao deletado' }
+        }
+
     }
 }
 
