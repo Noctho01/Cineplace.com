@@ -12,7 +12,6 @@ module.exports = {
             console.error(err)
             return false
         }
-            
     },
 
     buscar: async email => {

@@ -64,7 +64,7 @@
 				}
 			</style>
 
-			<form action="/compra_ingresso" method="post">
+			<form action="/ingresso/<%= filme.sala %>/sessao" method="post">
 				<!-- teste -->
 				<table class="demo">
 					<caption><%= filme.sala %></caption>
@@ -121,29 +121,12 @@
 						</tr>
 					</tbody>
 				</table>
-				<input type="email" placeholder="Digite seu email aqui" id="email" name="email" onkeyup="digitandoEmail()" style="margin-bottom: 10px;">
-				<input type="hidden" value="<%= ingressoBody.title %>" name="title">
-				<input type="hidden" value="<%= ingressoBody.dia %>" name="dia">
-				<input type="hidden" value="<%= ingressoBody.horario %>" name="horario">
 				<div class="row">
 					<div class="col-md-3">
 				 		<input type="button" onclick="window.location.href = '/' " value="CANCELAR" class="btn btn-block btn-md btn-outline-danger">
 					</div>
 					<div class="col-md-3">
-						<input id="submit" type="hidden" value="PROSSEGUIR" class="btn btn-block btn-outline-success">
-						<script type="text/javascript">
-								var email = document.getElementById("email")
-								
-								function digitandoEmail () {
-									if (email.value.indexOf("@") != -1 && email.value.indexOf(".com") != -1) {
-										document.getElementById("submit").type = "submit"
-									} else {
-										document.getElementById("submit").type = "hidden"
-									}
-								}
-
-						</script>
-				 		
+						<input id="submit" type="submit" value="PROSSEGUIR" class="btn btn-block btn-outline-success">
 					</div>
 				</div>
 			</form>

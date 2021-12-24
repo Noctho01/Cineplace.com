@@ -1,60 +1,99 @@
-const filme = require('../objetos/filmes')
+const filme = require('../model/Filmes')
 const ingresso = require('../objetos/ingresso')
 
 module.exports = {
     renderizarFilmesCartaz: async (req, res, next) => {
         try {
-            const hostname = req.hostname
-            const ip = req.ip
             const resultBuscaFilmes = await filme.todosOsFilmes()
             const resultBuscaCartaz = await filme.filmesCartaz()
 
-            if (resultBuscaCartaz.error) res.status(500).json(resultBuscaCartaz)
-            else if (resultBuscaFilmes.error) res.status(500).json(resultBuscaFilmes)
-            else res.render('home', { title: 'Cineplace.com', filmesMiniCartaz:  resultBuscaFilmes, filmesCartaz: resultBuscaCartaz})
-
-            console.log(`Pagina "/home" foi acessada pelo client: ${hostname}:${ip}`)
-
-            ingresso.resetPropriedades(true) // Resetando propriedades de ingresso
-
+            if (resultBuscaCartaz.error || resultBuscaFilmes.error) {
+                let errorBusca = resultBuscaCartaz.error || resultBuscaFilmes.error
+                let status = resultBuscaCartaz.status || resultBuscaFilmes.status
+                res.redirect('/pagina_indisponivel')
+                console.log({
+                    error: 'Nao foi possivel prosseguir com a rota /home',
+                    status: status,
+                    motivo: errorBusca
+                })
+            } else {                
+                res.render('home', { title: 'Cineplace.com', filmesMiniCartaz:  resultBuscaFilmes.body, filmesCartaz: resultBuscaCartaz.body })
+                console.log(' - rota /home acessada - ')
+            }
         } catch (err) {
+            res.redirect('/pagina_indisponivel')
+            console.log({
+                error: 'Nao foi possivel prosseguir com a rota /home',
+                motivo: err
+            })
             next(err)
         }
     },
 
     renderizarFilme: async (req, res, next) => {
         try {
-            const hostname = req.hostname
-            const ip = req.ip
             const nomeFilme = req.params.nomeFilme
-            const resultInstancia = await filme.instanciarFilme(nomeFilme) // Instanciando filme 'nomeFilme'
-
-            ingresso.setTitleFilme = nomeFilme // Setando o title do filme selecionado em ingresso._titleFilme
+            const result = await filme.buscarFilme(nomeFilme) // Instanciando filme 'nomeFilme'
             
-            if (resultInstancia.status != 'success') res.status(500).json(resultInstancia)
-            else res.render('filme_ingresso', { filme })
-            
-            console.log(`Pagina "/filme/${filme.title}" foi acessada pelo client: ${hostname}:${ip}`)
-
+            if (result.error) {
+                res.redirect('/pagina_indisponivel')
+                console.log({
+                    error: 'Não foi possivel prosseguir com a rota /filme/:nomeFilme',
+                    status: result.status,
+                    motivo: result.error
+                })
+            } else {
+                res.render('filme_ingresso', { filme: result.body })
+                console.log(' - rota /filme/:nomeFilme acessada - ')
+            }
         } catch (err) {
+            res.redirect('/pagina_indisponivel')
+            console.log({
+                error: 'Não foi possivel prosseguir com a rota /filme/:nomeFilme',
+                motivo: err
+            })
             next(err)
         }
     },
 
     renderizarSessao: async (req, res, next) => {
         try {
-            await filme.atualizarSessao()
-            const hostname = req.hostname
-            const ip = req.ip
             const dia = req.query.dia
+            const nomeFilme = req.params.nomeFilme
             const horario = req.query.horario
-            const sala = req.params.sala
+            const result = await filme.buscarFilme(nomeFilme)
 
-            ingresso.setSessao = {dia, horario , sala}
-            res.render('selecionar_lugares', { filme, ingressoBody: { dia, horario }})
+            if(result.error) {
+                res.redirect('/pagina_indisponivel')
+                console.log({
+                    error: 'Não foi possivel prosseguir com a rota /filme/:nomeFilme/sessao?',
+                    status: result.status,
+                    motivo: result.error
+                })
+            } else {
+                res.render('selecionar_lugares', { filme: result.body, ingressoBody: { dia, horario }})
+                console.log(' - rota /filme/:nomeFilme/sessao? - ')
+            }
+        } catch (err) {
+            res.redirect('/pagina_indisponivel')
+            console.log({
+                error: 'Não foi possivel prosseguir com a rota /filme/:nomeFilme/sessao?',
+                motivo: err
+            })
+            next(err)
+        }
+    },
 
-            console.log(`Pagina "/ingresso/${sala}/sessao" foi acessada pelo client: ${hostname}:${ip}`)
-
+    validarSelecaoLugares: async (req, res, next) => {
+        try {
+            console.log({
+                sala: req.params.sala,
+                cadeiras: req.body.cadeiras,
+                ingresso: {
+                    title: ingresso._titleFilme,
+                    sessao: ingresso._sessao
+                }
+            })
         } catch (err) {
             next(err)
         }
