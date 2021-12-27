@@ -12,7 +12,7 @@ module.exports = app => {
 		.get(pagesFilme.renderizarFilme)
 
 	//	PAGINA DO FILME (SELESSAO DE LUGARES)
-	app.route('/filme/:nomeFilme/sessao?')
+	app.route('/filme/:nomeFilme/sessao')
 		.get(pagesFilme.renderizarSessao)
 		.post(pagesFilme.validarSelecaoLugares)
 
@@ -23,7 +23,7 @@ module.exports = app => {
 		.post(pagesUsuario.fazerCadastro)
 
 	//	- login de usuarios -
-	app.route('/login')
+	app.route('/login?')
 		.get(pagesUsuario.renderizarFormularioLogin)
 		.post(pagesUsuario.efeturarLogin)
 
@@ -38,9 +38,16 @@ module.exports = app => {
 	//	- token invalido - 
 	app.route('/token_invalido')
 	.get(pagesUsuario.tokenInvalido)
+
+	// >>>> SERVICO DE PAGAMENTO <<<<
+	// - pagina de validar usuario -
 	
 	//	>>>> TRATAMENTO DE ERROS <<<<
 	// - pagina indisponivel -
 	app.route('/pagina_indisponivel')
 		.get((req, res) => res.render('pagina_indisponivel') || res.send('pagina indisponivel') )
+	
+	// - servico indisponivel -
+	app.route('/servico_indisponivel')
+		.get((req, res) => res.render('servico_indisponivel') || res.send('servico indisponivel') )
 }

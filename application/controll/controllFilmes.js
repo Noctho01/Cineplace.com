@@ -1,4 +1,5 @@
 const filme = require('../model/Filmes')
+const usuario = require('../objetos/usuario')
 const ingresso = require('../objetos/ingresso')
 
 module.exports = {
@@ -58,8 +59,8 @@ module.exports = {
 
     renderizarSessao: async (req, res, next) => {
         try {
-            const dia = req.query.dia
             const nomeFilme = req.params.nomeFilme
+            const dia = req.query.dia
             const horario = req.query.horario
             const result = await filme.buscarFilme(nomeFilme)
 
@@ -86,14 +87,20 @@ module.exports = {
 
     validarSelecaoLugares: async (req, res, next) => {
         try {
-            console.log({
-                sala: req.params.sala,
-                cadeiras: req.body.cadeiras,
-                ingresso: {
-                    title: ingresso._titleFilme,
-                    sessao: ingresso._sessao
-                }
-            })
+            const nomeFilme = req.params.nomeFilme
+            const dia = req.query.dia
+            const horario = req.query.horario
+            const result = await usuario.liberarAcesso(req)
+
+            if (result.error) {
+                console.log('sai fora')
+                const scriptMensagemAlerta = 'window.alert("Você precisa esta logado para continuar a compra");'
+                res.status(result.status).send(`<script> ${scriptMensagemAlerta}; window.location.href = "/login?upr=/filme/${nomeFilme}/sessao?&dia=${dia}&horario=${horario}" </script>`)
+
+            } else {
+                console.log('deu bom')
+                console.log(result)
+            }
         } catch (err) {
             next(err)
         }

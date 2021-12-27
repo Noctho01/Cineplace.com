@@ -31,16 +31,11 @@ class Access {
         if(!token) return { error: true, status: 400 }
         
         const payload = jwt.verify(token, process.env.SECRET, (error, payload) => {
-            if (error) {
-                console.log('erro aqui')
-                console.log(error)
-                return { error: true, status: 500 }
-            } else {
-                return payload
-            }
+            if (error) return { error: error , status: 400 }
+            else return { status: 200, body: payload }
         })
 
-        return { error: false, status: 200, body: payload }
+        return payload
     }
 
     deletarToken (res) {

@@ -64,7 +64,7 @@
 				}
 			</style>
 
-			<form action="/ingresso/<%= filme.sala %>/sessao" method="post">
+			<form action="/filme/<%= filme.title %>/sessao?dia=<%= ingressoBody.dia %>&horario=<%= ingressoBody.horario %>" method="post">
 				<!-- teste -->
 				<table class="demo">
 					<caption><%= filme.sala %></caption>

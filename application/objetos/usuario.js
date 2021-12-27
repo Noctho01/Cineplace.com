@@ -17,43 +17,45 @@ class Usuario {
                 email: userDateFormatados.email,
                 password: passwordInHashing
             }
-            
-            for (let valor in resultValidation) {
-                if(!resultValidation[valor]) return { error: true, status: 400, detalhes: resultValidation, body: userDateFormatados}
-            }
-            
+
+            for (let valor in resultValidation) { if(!resultValidation[valor]) return { error: 'cadastro não concluido devido aos dados informados serem invalidos', status: 400, detalhes: resultValidation, body: userDateFormatados} }
+
             const resulInsert = await dbUsuario.inserir(userDateValidados)
-            if(!resulInsert) return { error: true, status: 500, detalhes: 'Não foi possivel criar usuario' }
-            return { error: false, status: 200, detalhes: 'usuario criado com sucesso' }
+
+            if(!resulInsert) return { error: 'cadastro não concluido devido problemas na base de dados', status: 500 }
+            return { status: 200, detalhes: 'usuario criado com sucesso' }
+
         } catch (err) {
             console.error(err)
-            return { error: true, status: 500, detalhes: 'Não foi possivel criar usuario' }
+            return { error: 'Não foi possivel criar usuario', status: 500  }
         }
     }
 
     async acessarUsuario (userDate, res) {
         try {
             const existe = await dbUsuario.usuarioExiste(userDate.email)
-            if(!existe) return { error: true, status: 400, detalhe: 'email incorreto', tipo: 'email'}
+            if(!existe) return { error: 'email incorreto', status: 400, tipo: 'email'}
             
             const passwordValido = await this._validarPassword(userDate)
-            if(!passwordValido) return { error: true, status: 400, detalhe: 'senha incorreta', tipo: 'password' }
+            if(!passwordValido) return { error: 'senha incorreta', status: 400, tipo: 'password' }
 
             this._gerarToken(res, userDate.email)
 
-            return { error: false, status: 200, detalhe: 'login aprovado'}
+            return { status: 200, detalhes: 'login aprovado'}
             
         } catch (err) {
-            return { error: true, status: 500, detalhes: err, tipo: 'geral'}
+            return { error: err, status: 500, tipo: 'geral'}
         }
     }
 
     async liberarAcesso (req) {
         const payload = access.validarToken(req)
-        const result = await dbUsuario.buscar(payload.body)
-        
-        payload.body = result
-        
+
+        if(payload.error) return payload
+
+        const resultFind = await dbUsuario.buscar(payload.body, {password: 0})
+        payload.body = resultFind
+
         return  payload
     }
 
