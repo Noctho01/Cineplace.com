@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken')
-const crypto = require('crypto')
 
 class Access {
 
@@ -28,7 +27,7 @@ class Access {
 
     validarToken (req) {
         const token = req.cookies['access-token']
-        if(!token) return { error: true, status: 400 }
+        if(!token) return { error: 'token não existe', status: 400 }
         
         const payload = jwt.verify(token, process.env.SECRET, (error, payload) => {
             if (error) return { error: error , status: 400 }

@@ -1,6 +1,5 @@
 const filme = require('../model/Filmes')
 const usuario = require('../objetos/usuario')
-const ingresso = require('../objetos/ingresso')
 
 module.exports = {
     renderizarFilmesCartaz: async (req, res, next) => {
@@ -87,13 +86,19 @@ module.exports = {
 
     validarSelecaoLugares: async (req, res, next) => {
         try {
-            const nomeFilme = req.params.nomeFilme
-            const dia = req.query.dia
-            const horario = req.query.horario
+            const produto = {
+                nomeFilme: req.params.nomeFilme,
+                cadeiras: req.body.cadeiras,
+                sala: req.body.sala,
+                sessao: {
+                    dia: req.body.dia,
+                    horario: req.body.horario
+                }
+            }
             const result = await usuario.liberarAcesso(req)
 
             if (result.error) {
-                const scriptUrlRetorno = `window.location.href = "/login?upr=/filme/${nomeFilme}/sessao?&dia=${dia}&horario=${horario}"`
+                const scriptUrlRetorno = `window.location.href = "/login?upr=/filme/${produto.nomeFilme}/sessao?&dia=${produto.sessao.dia}&horario=${produto.sessao.horario}"`
                 const scriptMensagemAlerta = 'window.alert("Você precisa esta logado para continuar a compra");'
                 res.status(result.status).send(`<script> ${scriptMensagemAlerta}; ${scriptUrlRetorno} </script>`)
                 console.log({
@@ -104,7 +109,7 @@ module.exports = {
             } else {
                 // acessando rota de pagamento
                 console.log(' - rota /pagamento acessada - ')
-                res.redirect('/pagamento')
+                res.cookie('dados-payment', { comprador: result.body, produto: produto } ).redirect('/pagamento')
             }
         } catch (err) {
             res.status(404).redirect('/servico_indisponivel')

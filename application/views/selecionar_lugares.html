@@ -64,7 +64,7 @@
 				}
 			</style>
 
-			<form action="/filme/<%= filme.title %>/sessao?dia=<%= ingressoBody.dia %>&horario=<%= ingressoBody.horario %>" method="post">
+			<form action="/filme/<%= filme.title %>/sessao?" method="post">
 				<!-- teste -->
 				<table class="demo">
 					<caption><%= filme.sala %></caption>
@@ -123,6 +123,9 @@
 				</table>
 				<div class="row">
 					<div class="col-md-3">
+						<input type="hidden" value="<%= filme.sala %>" name="sala">
+						<input type="hidden" value="<%= ingressoBody.dia %>" name="dia">
+						<input type="hidden" value="<%= ingressoBody.horario %>" name="horario">
 				 		<input type="button" onclick="window.location.href = '/' " value="CANCELAR" class="btn btn-block btn-md btn-outline-danger">
 					</div>
 					<div class="col-md-3">

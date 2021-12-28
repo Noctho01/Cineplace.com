@@ -44,6 +44,9 @@ module.exports = app => {
 	// - pagina de validar usuario -
 	app.route('/pagamento')
 		.get(pagesPagamento.iniciarPagamento)
+	
+	app.route('/pagamentoSuccess?')
+		.get(pagesPagamento.success)
 
 	//	>>>> TRATAMENTO DE ERROS <<<<
 	// - pagina indisponivel -

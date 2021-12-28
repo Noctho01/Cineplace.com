@@ -72,6 +72,7 @@
 									<form action="/filme/<%= filme.title %>/sessao?>" method="GET">
 										
 										<input type="hidden" value="<%= ingresso.dia %>" name="dia">
+										<input type="hidden" value="<%= ingresso.sala %>" name="sala">
 										<input type="submit" value="<%= ingresso.horarios[i].horario %>" name="horario">
 										
 										<strong style="color: green;">

@@ -38,4 +38,6 @@ module.exports = {
         if(resultFind.length == 0) return { error: 'Não foi possivel acessar o banco de dados "filme_cartaz"', status: 500}
         return { status: 200, body: resultFind }
     }
+
+    
 }

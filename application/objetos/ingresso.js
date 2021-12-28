@@ -1,57 +1,47 @@
+const { createHmac } = require('crypto')
+
 class Ingresso {
-    constructor () {
-        this._comprador = undefined
-        this._titleFilme = undefined
-        this._sala = undefined
+    constructor (produto, comprador) {
+        //this._comprador = comprador.nome
+        this._titleFilme = produto.nomeFilme
+        this._sala = produto.sala
         this._sessao = {
-            dia: undefined,
-            horario: undefined
+            dia: produto.sessao.dia,
+            horario: produto.sessao.horario
         }
-        this._cadeiras = undefined
-        this._token = undefined
+        this._cadeiras = produto.cadeiras
     }
 
-    set setComprador (idComprador) {
-        this._comprador = idComprador
+    get nomeFilme () {
+        return this._titleFilme
     }
 
-    set setTitleFilme (titleFilme) {
-        this._titleFilme = titleFilme
+    get sessao () {
+        return `${this._sessao.dia} - ${this._sessao.horario}`
     }
 
-    set setSessao (diaHorario) {
-        this._sessao.dia = diaHorario.dia
-        this._sessao.horario = diaHorario.horario
-        this._sala = diaHorario.sala
+    get cadeiras () {
+        return this._cadeiras
     }
 
-    set setCadeiras (arrayCadeiras) {
-        this._cadeiras = arrayCadeiras
+    get sala () {
+        return this._sala
     }
 
-    resetPropriedades (validation) {
-        if (validation) {
-            this._comprador = undefined
-            this._titleFilme = undefined
-            this._sala = undefined
-            this._sessao = {
-                dia: undefined,
-                horario: undefined
-            }
-            this._cadeiras = undefined
-            this._token = undefined
-
-            console.log({ status: 'success', descricao: 'Propriedades de ingresso foram resetadas' })
-
-        } else {
-            console.log({ status: 'failure', descricao: 'Reset nao autorizado' })
+    validar (id) {
+        return {
+            comprador: this._comprador,
+            nomeFilme: this.nomeFilme,
+            sala: this.sala,
+            sessao: this.sessao,
+            cadeiras: this.cadeiras,
+            codigo: this._gerarToken(id)
         }
     }
 
-    gerarToken () {
-        // codigo para gerar token
-        console.log('token gerado...')
+    _gerarToken (id) {
+        return createHmac('sha256', process.env.SECRET_KEY_INGRESSO).update(id).digest('hex')
     }
 }
 
-module.exports = new Ingresso()
+module.exports = Ingresso
