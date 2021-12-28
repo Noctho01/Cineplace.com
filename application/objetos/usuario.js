@@ -60,8 +60,7 @@ class Usuario {
     }
 
     encerrarSessao (res) {
-        const delToken = access.deletarToken(res)
-        return delToken
+        return access.deletarToken(res)
     }
 
     // ====================================================================================================================================================

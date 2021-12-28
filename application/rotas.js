@@ -1,5 +1,6 @@
 const pagesFilme = require('./controll/controllFilmes')
 const pagesUsuario = require('./controll/controllUsuario')
+const pagesPagamento = require('./controll/controllPagamento')
 
 module.exports = app => {
 	// >>>> SERVICO DE COMPRA INGRESSO <<<<
@@ -37,11 +38,13 @@ module.exports = app => {
 	
 	//	- token invalido - 
 	app.route('/token_invalido')
-	.get(pagesUsuario.tokenInvalido)
+		.get(pagesUsuario.tokenInvalido)
 
 	// >>>> SERVICO DE PAGAMENTO <<<<
 	// - pagina de validar usuario -
-	
+	app.route('/pagamento')
+		.get(pagesPagamento.iniciarPagamento)
+
 	//	>>>> TRATAMENTO DE ERROS <<<<
 	// - pagina indisponivel -
 	app.route('/pagina_indisponivel')

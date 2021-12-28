@@ -41,9 +41,9 @@ class Access {
     deletarToken (res) {
         try {
             res.clearCookie('access-token')
-            return { error: false, status: 200, detalhe: 'Token deletado' }
+            return { status: 200, detalhe: 'Token deletado' }
         } catch (err) {
-            return { error: true, status: 500, detalhe: 'Token nao deletado' }
+            return { error: 'Token nao deletado', status: 500 }
         }
 
     }

@@ -11,18 +11,18 @@ module.exports = {
             if (resultBuscaCartaz.error || resultBuscaFilmes.error) {
                 let errorBusca = resultBuscaCartaz.error || resultBuscaFilmes.error
                 let status = resultBuscaCartaz.status || resultBuscaFilmes.status
-                res.redirect('/pagina_indisponivel')
+                res.status(404).redirect('/pagina_indisponivel')
                 console.log({
                     error: 'Nao foi possivel prosseguir com a rota /home',
                     status: status,
                     motivo: errorBusca
                 })
             } else {                
-                res.render('home', { title: 'Cineplace.com', filmesMiniCartaz:  resultBuscaFilmes.body, filmesCartaz: resultBuscaCartaz.body })
+                res.status(200).render('home', { title: 'Cineplace.com', filmesMiniCartaz:  resultBuscaFilmes.body, filmesCartaz: resultBuscaCartaz.body })
                 console.log(' - rota /home acessada - ')
             }
         } catch (err) {
-            res.redirect('/pagina_indisponivel')
+            res.status(404).redirect('/pagina_indisponivel')
             console.log({
                 error: 'Nao foi possivel prosseguir com a rota /home',
                 motivo: err
@@ -37,18 +37,18 @@ module.exports = {
             const result = await filme.buscarFilme(nomeFilme) // Instanciando filme 'nomeFilme'
             
             if (result.error) {
-                res.redirect('/pagina_indisponivel')
+                res.status(404).redirect('/pagina_indisponivel')
                 console.log({
                     error: 'Não foi possivel prosseguir com a rota /filme/:nomeFilme',
                     status: result.status,
                     motivo: result.error
                 })
             } else {
-                res.render('filme_ingresso', { filme: result.body })
+                res.status(result.status).render('filme_ingresso', { filme: result.body })
                 console.log(' - rota /filme/:nomeFilme acessada - ')
             }
         } catch (err) {
-            res.redirect('/pagina_indisponivel')
+            res.status(404).redirect('/pagina_indisponivel')
             console.log({
                 error: 'Não foi possivel prosseguir com a rota /filme/:nomeFilme',
                 motivo: err
@@ -65,18 +65,18 @@ module.exports = {
             const result = await filme.buscarFilme(nomeFilme)
 
             if(result.error) {
-                res.redirect('/pagina_indisponivel')
+                res.status(404).redirect('/pagina_indisponivel')
                 console.log({
                     error: 'Não foi possivel prosseguir com a rota /filme/:nomeFilme/sessao?',
                     status: result.status,
                     motivo: result.error
                 })
             } else {
-                res.render('selecionar_lugares', { filme: result.body, ingressoBody: { dia, horario }})
-                console.log(' - rota /filme/:nomeFilme/sessao? - ')
+                res.status(result.status).render('selecionar_lugares', { filme: result.body, ingressoBody: { dia, horario }})
+                console.log(' - rota /filme/:nomeFilme/sessao acessada - ')
             }
         } catch (err) {
-            res.redirect('/pagina_indisponivel')
+            res.status(404).redirect('/pagina_indisponivel')
             console.log({
                 error: 'Não foi possivel prosseguir com a rota /filme/:nomeFilme/sessao?',
                 motivo: err
@@ -93,15 +93,25 @@ module.exports = {
             const result = await usuario.liberarAcesso(req)
 
             if (result.error) {
-                console.log('sai fora')
+                const scriptUrlRetorno = `window.location.href = "/login?upr=/filme/${nomeFilme}/sessao?&dia=${dia}&horario=${horario}"`
                 const scriptMensagemAlerta = 'window.alert("Você precisa esta logado para continuar a compra");'
-                res.status(result.status).send(`<script> ${scriptMensagemAlerta}; window.location.href = "/login?upr=/filme/${nomeFilme}/sessao?&dia=${dia}&horario=${horario}" </script>`)
-
+                res.status(result.status).send(`<script> ${scriptMensagemAlerta}; ${scriptUrlRetorno} </script>`)
+                console.log({
+                    error: 'Não foi possivel acessar o servico de selecao de lugares',
+                    status: result.status,
+                    motivo: result.error
+                })
             } else {
-                console.log('deu bom')
-                console.log(result)
+                // acessando rota de pagamento
+                console.log(' - rota /pagamento acessada - ')
+                res.redirect('/pagamento')
             }
         } catch (err) {
+            res.status(404).redirect('/servico_indisponivel')
+            console.log({
+                error: 'Não foi possivel acessar o servico de selecao de lugares',
+                motivo: err
+            })
             next(err)
         }
     }
